@@ -19,3 +19,14 @@ Building such an app is not easy, the design below gives a general idea of how w
     * Define the tools and algorithms that we are using, why each of them is useful
     * Implement them
 3) Produce reports and visualizations illustrating these results
+
+# June 14th
+In order to product the community recognition, we will first capture a reasonable amount of complete data, and see how we can use them.
+The data we want to capture is based on one person chosen arbitrarely (it represents our intial node):
+* All followers from that person
+* Major hashtags associated to that person
+* Major topics associated to that person
+* All tweets that include these hashtags
+* All retweets that include the followers or the hashtags
+* All mentions that include one the followers
+This should be enough to capture a first group of users and their associated activity. Given that the french elections are next week, we should take advantage on this active time to retrieve interesting data.
