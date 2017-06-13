@@ -12,7 +12,7 @@ Building such an app is not easy, the design below gives a general idea of how w
 
 1) Build the backend server
 ⋅⋅⋅ * Define the needed data
-⋅⋅⋅ * Setup the twitter API
+    * Setup the twitter API
 ⋅⋅⋅ * Retrieve the needed Data
 2) Run the analytics
 ⋅⋅⋅ * Define 
