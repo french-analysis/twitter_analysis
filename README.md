@@ -29,4 +29,5 @@ The data we want to capture is based on one person chosen arbitrarely (it repres
 * All tweets that include these hashtags
 * All retweets that include the followers or the hashtags
 * All mentions that include one the followers
+
 This should be enough to capture a first group of users and their associated activity. Given that the french elections are next week, we should take advantage on this active time to retrieve interesting data.
