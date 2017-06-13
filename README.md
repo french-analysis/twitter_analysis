@@ -20,7 +20,7 @@ Building such an app is not easy, the design below gives a general idea of how w
     * Implement them
 3) Produce reports and visualizations illustrating these results
 
-# June 14th
+### June 14th
 In order to product the community recognition, we will first capture a reasonable amount of complete data, and see how we can use them.
 The data we want to capture is based on one person chosen arbitrarely (it represents our intial node):
 * All followers from that person
