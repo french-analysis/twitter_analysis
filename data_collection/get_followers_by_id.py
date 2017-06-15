@@ -4,6 +4,9 @@ from tweepy import OAuthHandler
 from config import consumer_key, consumer_secret, access_token, access_secret
 from pymongo import MongoClient
 
+current_milli_time = lambda: int(round(time.time() * 1000))
+target_userid = '864042284505063424'
+
 if __name__ == "__main__":
 
     auth = OAuthHandler(consumer_key, consumer_secret)
@@ -11,16 +14,24 @@ if __name__ == "__main__":
     twitter_api = tweepy.API(auth)
     
     follower_ids = []
-    for page in tweepy.Cursor(twitter_api.followers_ids, screen_name="@vbd2017").pages():
+    for page in tweepy.Cursor(twitter_api.followers_ids, user_id = target_userid).pages():
         follower_ids.extend(page)
-        #time.sleep(60)
     
-    with open('followers_ids.json', 'a') as f:
-        f.write(" ".join(str(id) for id in follower_ids))
-    print(follower_ids)
-
+    print("Connecting to Mongo database")
     client = MongoClient()
     db = client.twitter
 
+    print('Start insertion')
     for id in follower_ids:
-        db.followers.insert({str(id):'@vbd2017'})
+        db.followers.update(
+            { 'followee' : target_userid, 'follower' : str(id) },
+            { 
+                '$set' : { 'last': current_milli_time() },
+                '$setOnInsert' : { 'first': current_milli_time() }
+            },
+            upsert = True, multi = True
+            
+        )
+        
+    print('Updated %s followers for user %s' % (len(follower_ids), target_userid))
+    
