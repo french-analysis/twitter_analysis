@@ -16,7 +16,9 @@ if __name__ == "__main__":
     follower_ids = []
     for page in tweepy.Cursor(twitter_api.followers_ids, user_id = target_userid).pages():
         follower_ids.extend(page)
-    
+
+    print([str(id) for id in follower_ids])
+
     print("Connecting to Mongo database")
     client = MongoClient()
     db = client.twitter
