@@ -7,14 +7,16 @@ from tweepy.streaming import StreamListener
 
 class tweetListener(StreamListener): 
 
-    i = 0
+    def __init__(self):
+        self.streamed_objects = 0
 
     def on_data(self, data):
-        print(type(data))
+        print('Streamed objects:', self.streamed_objects)
         try:
-            with open('twitter_stream.txt', 'w') as outfile:
+            with open('twitter_stream.txt', 'a') as outfile:
                 json_data = json.loads(data)
                 json.dump(json_data,outfile)
+                self.streamed_objects += 1
         except BaseException as e:
             print("Error on_data: %s" % str(e))
         return True

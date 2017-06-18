@@ -5,7 +5,7 @@ from config import consumer_key, consumer_secret, access_token, access_secret
 from pymongo import MongoClient
 
 current_milli_time = lambda: int(round(time.time() * 1000))
-target_userid = '864042284505063424'
+target_userid = '376252824'
 
 if __name__ == "__main__":
 
