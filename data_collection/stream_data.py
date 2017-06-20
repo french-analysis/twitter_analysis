@@ -19,9 +19,10 @@ class tweetListener(StreamListener):
         if (time.time() - self.start_time) < self.limit:
             print('Streamed objects:', self.streamed_objects, time.time() - self.start_time)
             try:
-                with open('twitter_stream.txt', 'a') as outfile:
+                with open('files/twitter_stream_200617.txt', 'a') as outfile:
                     json_data = json.loads(data)
                     json.dump(json_data,outfile)
+                    outfile.write('\n')
                     self.streamed_objects += 1
             except BaseException as e:
                 print("Error on_data: %s" % str(e))
