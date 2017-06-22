@@ -51,7 +51,7 @@ if __name__ == "__main__":
                                        'hashtags' : [str(hashtag["text"]) for hashtag in tweet["entities"]["hashtags"]],
                                        'urls' : [str(urls["expanded_url"]) for urls in tweet["entities"]["urls"]],
                                        'mentions_user' : [str(mention["id"]) for mention in list(tweet["entities"]["user_mentions"])],
-                                       'retweeted_user' : [],
+                                       'retweeted_user' : "",
                                        'lang' : tweet["lang"]
                                      }
                         },
