@@ -42,7 +42,7 @@ if  __name__ == "__main__":
 
     followers = get_followers_id(main_id)
     DG, nodes = get_interactions(int(main_id), followers)
-    
+
     nx.write_gexf(DG, "vbd2017.gexf")
     nx.draw(DG,pos=nx.spring_layout(DG))
     print(nx.info(DG))
