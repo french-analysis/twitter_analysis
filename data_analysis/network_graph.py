@@ -2,12 +2,19 @@ from collections import Counter
 from pymongo import MongoClient
 from pprint import pprint
 import networkx as nx
+from networkx.readwrite import json_graph
 import matplotlib.pyplot as plt
+import json
 
-def connect_Mongo():
-    print("Connecting to Mongo database")
+def connect_Mongo_twitter():
+    print("Connecting to Mongo twitter database")
     client = MongoClient()
     return client.twitter
+
+def connect_Mongo_prod():
+    print("Connecting to Mongo prod database")
+    client = MongoClient()
+    return client.prod
 
 def graph_add_tweet(DiGraph, tweet, nodes, followers):
     edge_start = int(tweet["user"])
@@ -21,7 +28,7 @@ def graph_add_tweet(DiGraph, tweet, nodes, followers):
         DiGraph.add_edge(edge_start, int(tweet["retweeted_user"]))
     return DiGraph, nodes
 
-def get_interactions(main_id, followers):
+def get_interactions(main_id, followers, db):
     DG=nx.DiGraph()
     nodes = [main_id]
     for tweet in db.tweets.find():
@@ -35,15 +42,31 @@ def get_followers_id(id):
         followers.append(link["follower"])
     return followers
 
+def export_graph_prod(id, graph, db):
+    db.graphs.update(
+        { 'id' : str(id) },
+        {
+            '$set' : { 'graph' : graph }
+        },
+        upsert = True)
+    return
+
+def to_json(graph):
+    return json.dumps(json_graph.node_link_data(graph))
+     
+
 if  __name__ == "__main__":
 
-    db = connect_Mongo()
+    db = connect_Mongo_twitter()
     main_id = "864042284505063424"
 
     followers = get_followers_id(main_id)
-    DG, nodes = get_interactions(int(main_id), followers)
+    DG, nodes = get_interactions(int(main_id), followers, db)
 
-    nx.write_gexf(DG, "vbd2017.gexf")
-    nx.draw(DG,pos=nx.spring_layout(DG))
+    DG_json = to_json(DG)
+
+    prod = connect_Mongo_prod()
+    export_graph_prod(main_id, DG_json, prod)
+
     print(nx.info(DG))
     plt.show()
